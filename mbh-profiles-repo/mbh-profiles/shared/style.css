@@ -1,0 +1,622 @@
+/* =============================================================
+   MBH · Partner Digital Identity  —  style.css
+
+   CONCEPT: "The name crosses the threshold."
+   The page is stationery: a quiet paper-white letterhead with a
+   single tall blue-toned photograph. The partner's surname is set
+   so large that it travels from the paper onto the photograph and
+   changes colour exactly where the two meet. That one gesture is
+   the whole design; everything else stays still and disciplined.
+
+   Nothing in this file is partner-specific. Name, title, portrait
+   and contact details all live in index.html.
+
+   Sections
+     1. Tokens
+     2. Base
+     3. Mobile layout (default)
+     4. Interactions
+     5. Entrance animation
+     6. Tablet (two-column details)
+     7. Desktop (name crosses the portrait)
+     8. Large screens
+   ============================================================= */
+
+
+/* 1 ─ TOKENS ────────────────────────────────────────────────── */
+:root {
+  /* MBH palette */
+  --midnight: #06161D;
+  --deep:     #071820;
+  --dark:     #0B2632;
+  --blue:     #147CA0;   /* MBH Blue            */
+  --blue-lt:  #6FAADA;   /* MBH Light Blue      */
+  --gray:     #58595B;   /* Corporate Gray      */
+  --paper:    #F7FAFB;   /* Soft White          */
+
+  --ink:      var(--midnight);
+  --ink-soft: #26394A;
+  --line:     rgba(6, 22, 29, .16);
+  --on-photo: var(--paper);
+
+  /* Type */
+  --font-serif: "Newsreader", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  --font-sans:  "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Layout */
+  --pad:       clamp(1.5rem, 6vw, 3.5rem);        /* page margin   */
+  --name-size: clamp(3.1rem, 15.5vw, 7.5rem);     /* surname scale */
+  --name-lh:   .92;                               /* name line-height  */
+  --name-pad:  .1;                                /* safety padding (em) so glyphs never clip */
+
+  --ease: cubic-bezier(.22, .7, .2, 1);
+}
+
+
+/* 2 ─ BASE ──────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  background: var(--paper);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100svh;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  overflow-x: clip;               /* the page can never scroll sideways */
+}
+
+img, svg { display: block; max-width: 100%; }
+[hidden] { display: none !important; }
+
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+a { color: inherit; }
+a:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 4px;
+}
+a[aria-disabled="true"] { cursor: default; }
+
+
+/* 3 ─ MOBILE LAYOUT (default) ───────────────────────────────────
+   Order on a phone: letterhead → portrait → name → title → bio →
+   contact → links. Identity is clear within the first screen.   */
+
+.site-header {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: max(1rem, env(safe-area-inset-top)) var(--pad) 1rem;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--ink);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.brand img { height: 3.25rem; width: auto; }
+.brand__text {
+  font-family: var(--font-serif);
+  font-size: 1.625rem;
+  font-weight: 400;
+  letter-spacing: .1em;
+  color: var(--blue);
+}
+
+.site-header__label {
+  margin: 0;
+  font-size: .6875rem;
+  font-weight: 500;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+
+/* Portrait ─ a tall, blue-toned architectural panel. Never a circle. */
+.portrait {
+  position: relative;
+  isolation: isolate;
+  margin: 0;
+  height: clamp(20rem, 60vh, 40rem);
+  height: clamp(20rem, 60svh, 40rem);
+  overflow: hidden;
+  background: var(--dark);
+}
+
+.portrait img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 18%;
+  filter: none
+}
+
+/* Tints the greyscale photograph with MBH Blue while keeping its tonal range */
+.portrait::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  /* background: var(--blue); */
+  mix-blend-mode: color;
+  /* opacity: .18; */
+  pointer-events: none;
+}
+
+/* Darkens the lower edge so the white half of the name always reads */
+.portrait::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(to top,
+    rgba(6, 22, 29, .9) 0%,
+    rgba(6, 22, 29, .42) 26%,
+    rgba(6, 22, 29, 0) 58%);
+  pointer-events: none;
+}
+
+.portrait--natural img { filter: none; }
+.portrait--natural::before { display: none; }
+
+.portrait__tag {
+  position: absolute;
+  z-index: 3;
+  right: var(--pad);
+  bottom: 1.5rem;
+  margin: 0;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: .6875rem;
+  font-weight: 500;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: rgba(247, 250, 251, .8);
+}
+
+/* Placeholder shown automatically (by script.js) while no photo exists */
+.portrait__initials { display: none; }
+.portrait.is-empty { background: linear-gradient(165deg, var(--dark) 0%, var(--deep) 60%, var(--midnight) 100%); }
+.portrait.is-empty img { display: none; }
+.portrait.is-empty::before { opacity: .35; }
+.portrait.is-empty .portrait__initials {
+  display: grid;
+  place-items: center;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: min(58vw, 17rem);
+  font-weight: 300;
+  letter-spacing: .04em;
+  color: rgba(111, 170, 218, .2);
+  background: repeating-linear-gradient(90deg,
+    rgba(111, 170, 218, .07) 0 1px, transparent 1px 12.5%);
+}
+
+/* Main column */
+.main {
+  position: relative;
+  z-index: 2;
+}
+
+/* The name straddles the bottom edge of the portrait: line 1 sits on the
+   photograph (white), line 2 sits on the paper (ink). One hard colour stop. */
+.masthead {
+  margin-top: calc(var(--name-size) * (var(--name-lh) + var(--name-pad)) * -1);
+}
+
+.name {
+  margin: 0;
+  padding: calc(var(--name-size) * var(--name-pad)) var(--pad);
+  font-family: var(--font-serif);
+  font-size: var(--name-size);
+  font-weight: 400;
+  font-optical-sizing: auto;
+  line-height: var(--name-lh);
+  letter-spacing: -.025em;
+  color: var(--ink);
+}
+.name__line { display: block; }
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .name {
+    background-image: linear-gradient(to bottom,
+      var(--on-photo) 0 50%,
+      var(--ink) 50% 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+}
+
+.details { padding: 1.5rem var(--pad) 0; }
+
+.title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(1.25rem, 5.4vw, 1.625rem);
+  font-weight: 400;
+  line-height: 1.28;
+  color: var(--ink);
+}
+.title span { display: block; }
+.title__group { color: var(--gray); }
+
+/* Save contact ─ the one solid element on the page: a square-cornered ink bar */
+.save {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 3.5rem;
+  margin-top: 1.5rem;
+  padding: .5rem 1.25rem;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: .8125rem;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color .3s ease;
+}
+.save .arrow { color: var(--paper); }
+.save:active { background: var(--blue); }
+.save:focus-visible { outline-offset: 3px; }
+.save:focus-visible .arrow { transform: translateY(2px); }
+@media (hover: hover) {
+  .save:hover { background: var(--blue); }
+  .save:hover .arrow { transform: translateY(2px); }
+}
+
+.rule {
+  display: block;
+  width: 100%;
+  height: 1px;
+  margin: 1.5rem 0;
+  background: var(--blue);
+  transform-origin: left center;
+}
+
+.bio {
+  margin: 0;
+  max-width: 34rem;
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--ink-soft);
+}
+
+.reach { margin-top: 2.25rem; }
+
+.list { list-style: none; margin: 0; padding: 0; }
+.links + .links,
+.reach section + section { margin-top: 1.75rem; }
+
+/* Contact rows ─ large, hairline-ruled, whole row is the tap target */
+.contact { border-top: 1px solid var(--line); }
+.contact li { border-bottom: 1px solid var(--line); }
+
+.contact__item,
+.link {
+  position: relative;
+  display: flex;
+  text-decoration: none;
+  color: var(--ink);
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color .25s ease;
+}
+
+.contact__item {
+  flex-direction: column;
+  justify-content: center;
+  gap: .15rem;
+  min-height: 4.5rem;
+  padding: .8rem 0;
+}
+
+.contact__item a:hover {
+  text-decoration: none;
+}
+.contact__label {
+  font-size: .75rem;
+  font-weight: 500;
+  letter-spacing: .06em;
+  color: var(--gray);
+}
+.contact__value {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  line-height: 1.2;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "lnum" 1, "tnum" 1;
+}
+
+.contact__ext {
+  font-family: var(--font-sans);
+  font-size: .8125rem;
+  letter-spacing: .04em;
+  color: var(--gray);
+  white-space: nowrap;
+}
+.contact__item--static { cursor: default; }
+.contact__item--static::after { display: none; }
+.contact__item--static:active { background-color: transparent; }
+
+/* Link rows ─ fine rules, small tracked labels, one thin arrow */
+.links { border-top: 1px solid var(--line); }
+.links li { border-bottom: 1px solid var(--line); }
+
+.link {
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 3.5rem;
+  padding: .5rem 0;
+  font-size: .8125rem;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.arrow {
+  flex: none;
+  width: .9rem;
+  height: .9rem;
+  color: var(--blue);
+  transition: transform .35s var(--ease);
+}
+
+/* The blue hairline that sweeps along a row on hover / focus / touch */
+.contact__item::after,
+.link::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 1px;
+  background: var(--blue);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform .5s var(--ease);
+}
+
+.contact__item:focus-visible,
+.link:focus-visible { outline-offset: -2px; }
+
+.site-footer { padding: 2.5rem var(--pad) max(2rem, env(safe-area-inset-bottom)); }
+.site-footer p {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: .9375rem;
+  color: var(--gray);
+}
+
+
+/* 4 ─ INTERACTIONS ──────────────────────────────────────────── */
+
+/* Touch: clear, immediate feedback */
+.contact__item:active,
+.link:active { background-color: rgba(20, 124, 160, .08); }
+.contact__item:active::after,
+.link:active::after { transform: scaleX(1); transition-duration: .2s; }
+
+/* Keyboard */
+.contact__item:focus-visible::after,
+.link:focus-visible::after { transform: scaleX(1); }
+.link:focus-visible .arrow { transform: translate(3px, -3px); }
+
+/* Pointer devices only */
+@media (hover: hover) {
+  .contact__item:hover::after,
+  .link:hover::after { transform: scaleX(1); }
+  .link:hover .arrow { transform: translate(3px, -3px); }
+}
+
+/* Placeholder links (see script.js) do not react */
+a[aria-disabled="true"]:active { background-color: transparent; }
+
+
+/* 5 ─ ENTRANCE ANIMATION ────────────────────────────────────────
+   One orchestrated moment: the portrait is drawn down, the name
+   rises onto it, the rule extends, the details settle in.
+   Switched off entirely for prefers-reduced-motion.             */
+@media (prefers-reduced-motion: no-preference) {
+  .site-header          { animation: fade .6s ease .05s both; }
+  .portrait             { animation: reveal 1.05s var(--ease) both; }
+  .portrait img         { animation: settle 1.7s var(--ease) both; }
+  .masthead             { animation: rise .95s var(--ease) .4s both; }
+  .rule                 { animation: draw 1.1s var(--ease) .8s both; }
+  .title, .save, .bio,
+  .reach, .site-footer  { animation: fade .8s ease .95s both; }
+}
+
+@keyframes reveal { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0); } }
+@keyframes settle { from { transform: scale(1.06); } to { transform: scale(1); } }
+@keyframes rise   { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes draw   { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes fade   { from { opacity: 0; } to { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+/* 6 ─ TABLET (640–899px and ≥1200px): details in two columns ──── */
+@media (min-width: 640px) and (max-width: 899px), (min-width: 1200px) {
+  .details {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    column-gap: clamp(2rem, 4vw, 4.5rem);
+    align-items: start;
+  }
+  .reach { margin-top: 0; padding-top: .35rem; }
+}
+
+@media (min-width: 640px) and (max-width: 899px) {
+  .portrait { height: clamp(22rem, 52svh, 36rem); }
+  .portrait img { object-position: 50% 22%; }
+}
+
+
+/* 7 ─ DESKTOP (≥900px): the name crosses the portrait ─────────── */
+@media (min-width: 900px) {
+  :root {
+    --pad:       clamp(2rem, 5vw, 7rem);
+    --gutter:    clamp(2rem, 4vw, 6rem);
+    --name-size: clamp(6rem, 13.5vw, 22rem);
+  }
+
+  /* Page = two equal halves. Portrait fills the right half, full height. */
+  .page {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    min-height: 100vh;
+    min-height: 100svh;
+  }
+
+  .site-header {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    padding: clamp(1.25rem, 2.4vw, 3rem) var(--pad) 0;
+  }
+  .site-header__label { color: rgba(247, 250, 251, .85); }
+  .brand img { height: clamp(3.25rem, 4.4vw, 5.5rem); }
+
+  .portrait {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    height: auto;
+  }
+  .portrait img { object-position: 30% 12%; }
+
+  /* Left shade + top shade keep the white half of the name and the
+     header label legible whatever the photograph looks like. */
+  .portrait::after {
+    background:
+      linear-gradient(to bottom, rgba(6, 22, 29, .5), rgba(6, 22, 29, 0) 18%),
+      linear-gradient(to top, rgba(6, 22, 29, .5), rgba(6, 22, 29, 0) 24%),
+      linear-gradient(to right, rgba(6, 22, 29, .8), rgba(6, 22, 29, .3) 34%, rgba(6, 22, 29, 0) 72%);
+  }
+  .portrait__tag { bottom: clamp(1.5rem, 3vw, 3rem); }
+  .portrait.is-empty .portrait__initials { font-size: min(20vw, 22rem); }
+
+  /* Main spans both halves so the name can travel across the seam. */
+  .main {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr;
+    align-content: start;
+  }
+
+  .masthead {
+    grid-column: 1 / -1;
+    margin-top: clamp(.75rem, 2vw, 2.5rem);
+  }
+
+  /* Left of the seam (50%) = ink on paper. Right of it = white on photograph. */
+  .name { padding-inline: var(--pad); }
+  .name {
+    background-image: linear-gradient(to right,
+      var(--ink) 0 50%,
+      var(--on-photo) 50% 100%);
+  }
+
+  .details {
+    grid-column: 1;
+    padding: clamp(1.25rem, 2.2vw, 2.75rem) var(--gutter) 0 var(--pad);
+  }
+
+  .site-footer {
+    grid-column: 1;
+    align-self: end;
+    padding: 2rem var(--gutter) clamp(1.25rem, 2vw, 2.25rem) var(--pad);
+  }
+
+  .link { min-height: 3.25rem; }
+  .contact__item { min-height: 4.25rem; }
+  .reach { margin-top: 2rem; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .portrait { animation-name: reveal-desktop; }
+  }
+}
+
+@keyframes reveal-desktop { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(0); } }
+
+/* 900–1199px: single column; make sure the reach block keeps its spacing */
+@media (min-width: 900px) and (max-width: 1199px) {
+  .reach { margin-top: 2.25rem; }
+}
+
+
+/* 8 ─ LARGE SCREENS ─────────────────────────────────────────────
+   Everything is rem-based, so scaling the root scales the page.  */
+@media (min-width: 1800px) { html { font-size: 112.5%; } }
+@media (min-width: 2400px) { html { font-size: 131.25%; } }
+
+
+/* Group headings above the link lists ("Personal Links", "Firm Links") */
+.links__heading {
+  margin: 0 0 .5rem;
+  font-family: var(--font-sans);
+  font-size: .75rem;
+  font-weight: 500;
+  letter-spacing: .06em;
+  color: var(--gray);
+}
+
+/* Long email address: slightly smaller so it fits; wraps before the @ if it must */
+.contact__value--email {
+  font-size: .95rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+
+/* Longer surname ("El Hennawy"): scale the name down a little, per page */
+.page--long-name { --name-size: clamp(2.8rem, 13.4vw, 7rem); }
+@media (min-width: 900px) {
+  .page--long-name { --name-size: clamp(5.5rem, 11.4vw, 19rem); }
+}

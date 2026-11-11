@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="theme-color" content="#F7FAFB">
+
+  <!-- ✎ PER PARTNER ─ page title, description and social preview -->
+  <title>Omar S. Bassiouny | Matouk Bassiouny &amp; Hennawy</title>
+  <meta name="description"
+    content="Omar S. Bassiouny, Founding Partner and Group Head of Corporate &amp; M&amp;A at Matouk Bassiouny &amp; Hennawy (MBH).">
+  <meta property="og:type" content="profile">
+  <meta property="og:title" content="Omar S. Bassiouny | MBH">
+  <meta property="og:description" content="Founding Partner and Group Head of Corporate &amp; M&amp;A">
+  <!-- <meta property="og:image" content="https://[YOUR-DOMAIN]/assets/share.jpg"> -->
+
+  <!--
+    Fonts: Newsreader (serif, name & editorial text) + Hanken Grotesk (sans, labels & contact).
+    Two small families, swap-loaded so text is visible instantly in a fallback face.
+    To go fully offline/self-hosted later, download both from fonts.google.com,
+    place the .woff2 files in /assets and replace this <link> with @font-face rules.
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&display=swap">
+
+  <link rel="stylesheet" href="../shared/style.css">
+  <script src="../shared/script.js" defer></script>
+</head>
+
+<body>
+
+  <!-- One tiny SVG arrow, reused by every link (no icon library, no extra requests) -->
+  <svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false">
+    <symbol id="i-download" viewBox="0 0 12 12">
+      <path d="M6 1.5v6.5M3.2 5.6 6 8.4l2.8-2.8M2 10.5h8" fill="none" stroke="currentColor" stroke-width="1.1"
+        stroke-linecap="square" />
+    </symbol>
+    <symbol id="i-arrow" viewBox="0 0 12 12">
+      <path d="M2.5 9.5 9.5 2.5M3.5 2.5h6v6" fill="none" stroke="currentColor" stroke-width="1.1"
+        stroke-linecap="square" />
+    </symbol>
+  </svg>
+
+  <div class="page">
+
+    <!-- ─────────────────────────  LETTERHEAD  ───────────────────────── -->
+    <header class="site-header">
+      <!-- ✎ [MBH WEBSITE URL] ─ the logo links to the firm's main website -->
+      <a class="brand" href="https://matoukbassiouny.com/" aria-label="Matouk Bassiouny &amp; Hennawy, main website">
+        <!-- ✎ Logo: ../shared/logo.png (transparent, shared by all partners). If it is ever missing, a text wordmark is shown automatically. -->
+        <img src="../shared/logo.png" alt="Matouk Bassiouny &amp; Hennawy" width="560" height="291">
+        <span class="brand__text" hidden>MBH</span>
+      </a>
+      <!-- <p class="site-header__label">MBH Partner</p> -->
+    </header>
+
+    <!-- ─────────────────────────  PORTRAIT  ─────────────────────────
+         ✎ Replace partner.jpg (same folder) with the professional portrait (vertical crop, ~1400px wide).
+         ✎ data-initials is only used by the placeholder panel until the photo exists.
+         ✎ Add class "portrait--natural" to keep the photo in full colour instead of the MBH blue treatment.
+         Optional responsive images once you have several sizes:
+           srcset="assets/partner-800.jpg 800w, assets/partner-1400.jpg 1400w"
+           sizes="(min-width: 900px) 50vw, 100vw"
+    -->
+    <figure class="portrait" data-initials="OB">
+      <img src="partner.jpg" alt="Portrait of Omar S. Bassiouny" width="530" height="620" fetchpriority="high"
+        decoding="async">
+      <p class="portrait__initials" aria-hidden="true">OB</p>
+      <!-- ✎ Practice-area tag (decorative; repeats the title, so hidden from screen readers) -->
+      <p class="portrait__tag" aria-hidden="true">Corporate M&amp;A</p>
+    </figure>
+
+    <!-- ─────────────────────────  PROFILE  ───────────────────────── -->
+    <main class="main" id="profile">
+
+      <!-- ✎ NAME ─ two lines only: first name(s) on line 1, surname on line 2.
+           Very long surname? Shrink it for this partner only, e.g.
+           <h1 class="name" style="--name-size: clamp(2.6rem, 12.5vw, 6rem)"> -->
+      <div class="masthead">
+        <h1 class="name">
+          <span class="name__line">Omar S.</span>
+          <span class="name__line">Bassiouny</span>
+        </h1>
+      </div>
+
+      <div class="details">
+
+        <div class="intro">
+          <!-- ✎ TITLE -->
+          <p class="title">
+            <span class="title__role">Founding Partner</span>
+            <span class="visually-hidden">and</span>
+            <span class="title__group">Group Head of Corporate M&amp;A</span>
+          </p>
+
+          <!-- ✎ SAVE CONTACT ─ downloads omar-bassiouny.vcf, which phones open as "Add to Contacts".
+               For another partner: copy the .vcf, edit it, and change the filename below. -->
+          <a class="save" href="omar-bassiouny.vcf" download="Omar S. Bassiouny.vcf">
+            <span>Save contact</span>
+            <svg class="arrow" aria-hidden="true" focusable="false">
+              <use href="#i-download" />
+            </svg>
+          </a>
+
+          <span class="rule" aria-hidden="true"></span>
+
+          <section aria-labelledby="h-bio">
+            <h2 id="h-bio" class="visually-hidden">Biography</h2>
+            <!-- ✎ [BIO] ─ replace this paragraph. Add more <p class="bio"> blocks if needed. -->
+            <p class="bio">Biography to be added. A concise summary of practice, experience and recognition will appear
+              here once approved by the firm.</p>
+          </section>
+        </div>
+
+        <div class="reach">
+
+          <section aria-labelledby="h-contact">
+            <h2 id="h-contact" class="visually-hidden">Contact</h2>
+            <ul class="list contact">
+              <li>
+                <!-- ✎ MOBILE ─ change BOTH the href (tel:+…, no spaces) and the visible number -->
+                <a class="contact__item" href="tel:+201227379860">
+                  <span class="contact__label">Mobile</span>
+                  <span class="contact__value">+20 122 737 9860</span>
+                </a>
+              </li>
+              <li>
+                <!-- ✎ TELEPHONE ─ change BOTH the href (",129" dials the extension) and the visible number -->
+                <a class="contact__item" href="tel:+20227962042,129">
+                  <span class="contact__label">Telephone</span>
+                  <span class="contact__value">+(202) 27962042 <span class="contact__ext">ext. 129</span></span>
+                </a>
+              </li>
+              <li>
+                <!-- ✎ FAX ─ shown for reference only (not tappable) -->
+                <div class="contact__item contact__item--static">
+                  <span class="contact__label">Fax</span>
+                  <span class="contact__value">+(202) 27954221</span>
+                </div>
+              </li>
+              <li>
+                <!-- ✎ EMAIL ─ change BOTH the href and the visible address -->
+                <a class="contact__item" href="mailto:Omar.Bassiouny@matoukbassiouny.com">
+                  <span class="contact__label">Email</span>
+                  <span class="contact__value contact__value--email">Omar.Bassiouny<wbr>@matoukbassiouny.com</span>
+                </a>
+              </li>
+            </ul>
+          </section>
+
+          <section aria-labelledby="h-personal">
+            <h2 id="h-personal" class="links__heading">Personal Links</h2>
+            <ul class="list links">
+              <li>
+                <!-- ✎ [MBH PROFILE URL] -->
+                <a class="link" href="https://matoukbassiouny.com/partner-profile/omar-s-bassiouny/" target="_blank" rel="noopener">
+                  <span>MBH Profile<span class="visually-hidden"> (opens in a new tab)</span></span>
+                  <svg class="arrow" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg>
+                </a>
+              </li>
+              <li>
+                <!-- ✎ [LINKEDIN URL] ─ Omar's own LinkedIn -->
+                <a class="link" href="https://www.linkedin.com/in/omar-bassiouny-73304193/" target="_blank" rel="noopener">
+                  <span>LinkedIn<span class="visually-hidden"> (opens in a new tab)</span></span>
+                  <svg class="arrow" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg>
+                </a>
+              </li>
+            </ul>
+          </section>
+
+          <section aria-labelledby="h-firm">
+            <h2 id="h-firm" class="links__heading">Firm Links</h2>
+            <ul class="list links">
+              <li>
+                <!-- ✎ [MBH WEBSITE URL] -->
+                <a class="link" href="https://matoukbassiouny.com/" target="_blank" rel="noopener">
+                  <span>MBH Website<span class="visually-hidden"> (opens in a new tab)</span></span>
+                  <svg class="arrow" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg>
+                </a>
+              </li>
+              <li>
+                <!-- ✎ MBH company LinkedIn -->
+                <a class="link" href="https://www.linkedin.com/company/matouk-bassiouny/posts/?feedView=all" target="_blank" rel="noopener">
+                  <span>LinkedIn<span class="visually-hidden"> for Matouk Bassiouny &amp; Hennawy (opens in a new tab)</span></span>
+                  <svg class="arrow" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg>
+                </a>
+              </li>
+            </ul>
+          </section>
+
+        </div>
+      </div>
+
+      <footer class="site-footer">
+        <p>Matouk Bassiouny &amp; Hennawy</p>
+      </footer>
+
+    </main>
+  </div>
+
+</body>
+
+</html>
